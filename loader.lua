@@ -1,61 +1,118 @@
-print("FAYINTXCODE HUB LOADED")
+--====================================
+-- FayintxCode | EMPTY TEMPLATE
+-- UI Only • Safe • Delta Android
+--====================================
 
-game.StarterGui:SetCore("SendNotification", {
-    Title = "FayintxCode Hub";
-    Text = "Script aktif!";
-    Duration = 5;
-})
--- FayintxCode UI Loader (Delta Android Safe)
-
+-- Services
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer
 
--- UI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "FayintxCodeLoader"
-ScreenGui.Parent = game.CoreGui
-
-local Frame = Instance.new("Frame")
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Frame.Position = UDim2.new(0.3, 0, 0.3, 0)
-Frame.Size = UDim2.new(0, 300, 0, 180)
-Frame.BorderSizePixel = 0
-Frame.Active = true
-Frame.Draggable = true
-
-local UICorner = Instance.new("UICorner", Frame)
-UICorner.CornerRadius = UDim.new(0, 12)
-
--- Title
-local Title = Instance.new("TextLabel", Frame)
-Title.Text = "FayintxCode Loader"
-Title.Size = UDim2.new(1, 0, 0, 40)
-Title.BackgroundTransparency = 1
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 18
-
--- Button
-local Button = Instance.new("TextButton", Frame)
-Button.Position = UDim2.new(0.1, 0, 0.5, 0)
-Button.Size = UDim2.new(0.8, 0, 0, 45)
-Button.Text = "LOAD SCRIPT"
-Button.Font = Enum.Font.GothamBold
-Button.TextSize = 16
-Button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local BtnCorner = Instance.new("UICorner", Button)
-BtnCorner.CornerRadius = UDim.new(0, 10)
-
--- Script Link (EDIT INI)
-local SCRIPT_URL = "https://raw.githubusercontent.com/alifmodesad56-ops/Fayintfree/main/main.lua"
-
-Button.MouseButton1Click:Connect(function()
-    Button.Text = "LOADING..."
-    pcall(function()
-        loadstring(game:HttpGet(SCRIPT_URL))()
-    end)
-    ScreenGui:Destroy()
+-- Load WindUI
+local success, WindUI = pcall(function()
+    return loadstring(game:HttpGet(
+        "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"
+    ))()
 end)
+
+if not success or not WindUI then
+    warn("WindUI failed to load")
+    return
+end
+
+-- Create Window
+local Window = WindUI:CreateWindow({
+    Title = "FayintxCode",
+    Author = "Template",
+    Folder = "FAYINTXCODE",
+    Size = UDim2.fromOffset(260, 300),
+    Theme = "Crimson",
+    Transparent = true,
+    SideBarWidth = 160,
+})
+
+-- Open Button (Mobile Friendly)
+Window:EditOpenButton({
+    Title = "FayintxCode",
+    Icon = "bot-message-square",
+    OnlyMobile = true,
+    Enabled = true,
+    Draggable = true,
+})
+
+-- Version Tag
+Window:Tag({
+    Title = "v0.0.1 TEMPLATE",
+    Color = Color3.fromRGB(255,255,255),
+    Radius = 15,
+})
+
+--========================
+-- INFO TAB
+--========================
+local InfoTab = Window:Tab({
+    Title = "Info",
+    Icon = "info",
+})
+
+InfoTab:Paragraph({
+    Title = "FayintxCode",
+    Desc = "Template kosong\nSiap dikembangkan",
+})
+
+InfoTab:Paragraph({
+    Title = "User",
+    Desc = string.format(
+        "Name: %s\nUserId: %s",
+        LocalPlayer.Name,
+        LocalPlayer.UserId
+    )
+})
+
+InfoTab:Divider()
+
+--========================
+-- MAIN TAB (KOSONG)
+--========================
+local MainTab = Window:Tab({
+    Title = "Main",
+    Icon = "star",
+})
+
+MainTab:Paragraph({
+    Title = "Main Features",
+    Desc = "Belum ada fitur.\nTambahkan toggle / button di sini.",
+})
+
+-- CONTOH TOGGLE (TEST)
+local exampleToggle = false
+
+MainTab:Toggle({
+    Title = "Example Toggle",
+    Value = false,
+    Callback = function(v)
+        exampleToggle = v
+        if v then
+            WindUI:Notify({
+                Title = "Toggle",
+                Content = "Example Toggle ON",
+                Duration = 2
+            })
+        else
+            WindUI:Notify({
+                Title = "Toggle",
+                Content = "Example Toggle OFF",
+                Duration = 2
+            })
+        end
+    end
+})
+
+--========================
+-- NOTIFY LOAD
+--========================
+WindUI:Notify({
+    Title = "FayintxCode",
+    Content = "Template loaded successfully!",
+    Duration = 3,
+    Icon = "check",
+})
