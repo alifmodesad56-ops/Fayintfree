@@ -1,20 +1,19 @@
 --====================================
--- FayintxCode | Template + Key System
+-- FayintxCode | Ronix Ready Template
 --====================================
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 
--- ===============================
--- 🔑 KEY SYSTEM
--- ===============================
+-- 🔑 VALID KEYS
 local VALID_KEYS = {
     "FAYINT-1234",
     "FAYINT-5678",
     "FAYINT-9999",
 }
 
+-- FUNCTION CHECK KEY
 local function checkKey(userKey)
     for _, key in pairs(VALID_KEYS) do
         if key == userKey then
@@ -24,16 +23,19 @@ local function checkKey(userKey)
     return false
 end
 
--- Simple input dialog for key
+-- ===============================
+-- INPUT KEY VIA PROMPT
+-- ===============================
 local userKey = nil
 repeat
-    if not game:GetService("Players").LocalPlayer then wait() end
-    userKey = game:GetService("Players").LocalPlayer:PromptInput("Enter FayintxCode Key", "Type your key here")
-    if userKey == nil then
+    userKey = LocalPlayer:PromptInput("Enter FayintxCode Key", "Type your key here")
+    if not userKey then
         warn("User cancelled key input")
         return
     end
 until checkKey(userKey)
+
+print("Key valid! Loading script...")
 
 -- ===============================
 -- LOAD WindUI
@@ -54,7 +56,7 @@ end
 -- ===============================
 local Window = WindUI:CreateWindow({
     Title = "FayintxCode",
-    Author = "Template + Key System",
+    Author = "Ronix Template",
     Folder = "FAYINTXCODE",
     Size = UDim2.fromOffset(260, 300),
     Theme = "Crimson",
@@ -65,65 +67,34 @@ local Window = WindUI:CreateWindow({
 Window:EditOpenButton({
     Title = "FayintxCode",
     Icon = "bot-message-square",
-    OnlyMobile = true,
+    OnlyMobile = false,
     Enabled = true,
     Draggable = true,
 })
 
 Window:Tag({
-    Title = "v0.0.1 TEMPLATE",
+    Title = "v0.0.3 RONIX",
     Color = Color3.fromRGB(255,255,255),
     Radius = 15,
 })
 
 -- ===============================
--- INFO TAB
--- ===============================
-local InfoTab = Window:Tab({
-    Title = "Info",
-    Icon = "info",
-})
-
-InfoTab:Paragraph({
-    Title = "FayintxCode",
-    Desc = "Template dengan Key System",
-})
-
-InfoTab:Paragraph({
-    Title = "User",
-    Desc = string.format(
-        "Name: %s\nUserId: %s\nKey: %s",
-        LocalPlayer.Name,
-        LocalPlayer.UserId,
-        userKey
-    )
-})
-
--- ===============================
--- MAIN TAB
+-- MAIN TAB (Load External Script)
 -- ===============================
 local MainTab = Window:Tab({
     Title = "Main",
     Icon = "star",
 })
 
-MainTab:Paragraph({
-    Title = "Main Features",
-    Desc = "Klik tombol di bawah untuk load script",
-})
-
--- ===============================
--- LOAD EXTERNAL SCRIPT
--- ===============================
 local SCRIPT_URL = "https://raw.githubusercontent.com/alifmodesad56-ops/Fayintfree/main/loader.lua"
 
 MainTab:Button({
     Title = "Load External Script",
-    Desc = "Load script dari GitHub",
+    Desc = "Load script from GitHub",
     Callback = function()
         WindUI:Notify({
-            Title = "FayintxCode",
-            Content = "Loading script...",
+            Title = "Loading",
+            Content = "Loading external script...",
             Duration = 2
         })
 
@@ -146,7 +117,7 @@ MainTab:Button({
 -- ===============================
 WindUI:Notify({
     Title = "FayintxCode",
-    Content = "Template + Key System Loaded Successfully!",
+    Content = "Ronix template loaded successfully!",
     Duration = 3,
     Icon = "check",
 })
