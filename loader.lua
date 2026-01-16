@@ -1,48 +1,19 @@
 --====================================
--- FayintxCode | Ronix Ready Template
+-- FayintxCode | Ronix Ready (No Key)
+-- Features lengkap
 --====================================
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
-
--- 🔑 VALID KEYS
-local VALID_KEYS = {
-    "FAYINT-1234",
-    "FAYINT-5678",
-    "FAYINT-9999",
-}
-
--- FUNCTION CHECK KEY
-local function checkKey(userKey)
-    for _, key in pairs(VALID_KEYS) do
-        if key == userKey then
-            return true
-        end
-    end
-    return false
-end
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- ===============================
--- INPUT KEY VIA PROMPT
--- ===============================
-local userKey = nil
-repeat
-    userKey = LocalPlayer:PromptInput("Enter FayintxCode Key", "Type your key here")
-    if not userKey then
-        warn("User cancelled key input")
-        return
-    end
-until checkKey(userKey)
-
-print("Key valid! Loading script...")
-
--- ===============================
--- LOAD WindUI
+-- LOAD WindUI (RAW link)
 -- ===============================
 local success, WindUI = pcall(function()
     return loadstring(game:HttpGet(
-        "https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"
+        "https://raw.githubusercontent.com/Footagesus/WindUI/main/main.lua"
     ))()
 end)
 
@@ -56,9 +27,9 @@ end
 -- ===============================
 local Window = WindUI:CreateWindow({
     Title = "FayintxCode",
-    Author = "Ronix Template",
+    Author = "Ronix Ready",
     Folder = "FAYINTXCODE",
-    Size = UDim2.fromOffset(260, 300),
+    Size = UDim2.fromOffset(280, 350),
     Theme = "Crimson",
     Transparent = true,
     SideBarWidth = 160,
@@ -73,24 +44,108 @@ Window:EditOpenButton({
 })
 
 Window:Tag({
-    Title = "v0.0.3 RONIX",
+    Title = "v0.0.4 RONIX",
     Color = Color3.fromRGB(255,255,255),
     Radius = 15,
 })
 
 -- ===============================
--- MAIN TAB (Load External Script)
+-- INFO TAB
+-- ===============================
+local InfoTab = Window:Tab({
+    Title = "Info",
+    Icon = "info",
+})
+
+InfoTab:Paragraph({
+    Title = "FayintxCode",
+    Desc = "No Key | Ronix-ready template",
+})
+
+InfoTab:Paragraph({
+    Title = "User Info",
+    Desc = string.format(
+        "Name: %s\nUserId: %s",
+        LocalPlayer.Name,
+        LocalPlayer.UserId
+    )
+})
+
+-- ===============================
+-- MAIN TAB (Fitur Fishing / etc)
 -- ===============================
 local MainTab = Window:Tab({
     Title = "Main",
     Icon = "star",
 })
 
+MainTab:Paragraph({
+    Title = "Features",
+    Desc = "- Fish Spawner\n- Fish Caught\n- Fish Notifications\n- Blatant X7 Mode\n- Auto Perfection",
+    TextSize = 15,
+})
+
+-- Dummy config / state
+local config = {blatant=false, cancelDelay=1.6, completeDelay=0.37, autoPerfect=false}
+
+-- ===============================
+-- Toggle Blatant X7
+-- ===============================
+MainTab:Toggle({
+    Title = "Blatant X7",
+    Value = config.blatant,
+    Callback = function(v)
+        config.blatant = v
+        print("Blatant X7: "..tostring(v))
+    end
+})
+
+-- ===============================
+-- Cancel Delay input
+-- ===============================
+MainTab:Input({
+    Title = "Cancel Delay",
+    Placeholder = "1.6",
+    Default = tostring(config.cancelDelay),
+    Callback = function(v)
+        local n = tonumber(v)
+        if n then config.cancelDelay = n end
+    end
+})
+
+-- ===============================
+-- Complete Delay input
+-- ===============================
+MainTab:Input({
+    Title = "Complete Delay",
+    Placeholder = "0.37",
+    Default = tostring(config.completeDelay),
+    Callback = function(v)
+        local n = tonumber(v)
+        if n then config.completeDelay = n end
+    end
+})
+
+-- ===============================
+-- Toggle Auto Perfection
+-- ===============================
+MainTab:Toggle({
+    Title = "Auto Perfection",
+    Value = config.autoPerfect,
+    Callback = function(v)
+        config.autoPerfect = v
+        print("Auto Perfection: "..tostring(v))
+    end
+})
+
+-- ===============================
+-- Load External Script (loader.lua)
+-- ===============================
 local SCRIPT_URL = "https://raw.githubusercontent.com/alifmodesad56-ops/Fayintfree/main/loader.lua"
 
 MainTab:Button({
     Title = "Load External Script",
-    Desc = "Load script from GitHub",
+    Desc = "Load loader.lua from GitHub",
     Callback = function()
         WindUI:Notify({
             Title = "Loading",
@@ -113,11 +168,11 @@ MainTab:Button({
 })
 
 -- ===============================
--- NOTIFY LOAD
+-- Notify Loaded
 -- ===============================
 WindUI:Notify({
     Title = "FayintxCode",
-    Content = "Ronix template loaded successfully!",
+    Content = "Ronix-ready No Key Template loaded successfully!",
     Duration = 3,
     Icon = "check",
 })
